@@ -36,6 +36,6 @@ export default function Home() {
       <div className="section-title"><span className="eyebrow">THE LEARNING FLOW</span><h2>One frontend. Three key flows.</h2><p>Har screen par API endpoint aur function ka naam comments mein diya hai.</p></div>
       <div className="cards">{features.map(([n, title, text]) => <article className="card" key={n}><b>{n}</b><h3>{title}</h3><p>{text}</p></article>)}</div>
     </section>
-    <section className="connection"><div><span className="eyebrow">BACKEND CONNECTION</span><h2>Where does the API URL go?</h2><p>Base URL .env mein hai. Endpoint paths relevant components mein TODO comments ke saath diye gaye hain.</p></div><code>{API_BASE_URL || "VITE_API_BASE_URL set nahi hai"}</code></section>
+    <section className="connection">    <div><span className="eyebrow">BACKEND CONNECTION</span><h2>StudyFlow API connected</h2><p>Base URL .env se aata hai. Register, login aur task CRUD screens isi API ko use karti hain.</p></div><code>{API_BASE_URL || "Same-origin API"}</code></section>
   </div>;
 }

@@ -1,20 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Field from "../components/Field";
 import ApiNotice from "../components/ApiNotice";
+import { apiRequest, TOKEN_STORAGE_KEY } from "../config/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    // TODO: YAHAN API CALL ADD KARNI HAI.
-    // Method: POST | Endpoint: /api/auth/login
-    // Body: { email, password }
-    // Success response se token lena hai; errors ko UI par dikhana hai.
-    // Abhi token create/store nahi hota aur koi request send nahi hoti.
-    alert("Login API abhi connect nahi hai. handleSubmit() ke TODO comments dekho.");
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const data = await apiRequest("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      sessionStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+      navigate("/dashboard");
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return <section className="auth-layout">
@@ -27,8 +40,11 @@ export default function Login() {
       <form onSubmit={handleSubmit}>
         <Field label="Email address" id="login-email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
         <Field label="Password" id="login-password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password" autoComplete="current-password" />
-        <button className="btn primary full" type="submit">Sign in →</button>
+        <button className="btn primary full" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Signing in..." : "Sign in →"}
+        </button>
       </form>
+      {error && <p className="error">{error}</p>}
       <p className="form-bottom">New to StudyFlow? <Link to="/register">Create an account</Link></p>
       <div className="api-hint"><b>API connection point</b><code>POST /api/auth/login</code><small>src/pages/Login.jsx → handleSubmit()</small></div>
     </div>

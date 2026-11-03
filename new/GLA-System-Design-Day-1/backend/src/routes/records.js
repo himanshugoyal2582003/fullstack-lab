@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
       limit,
       total,
       totalPages,
-      hasPrevPage: requestedpage > 1,
+      hasPreviousPage: requestedpage > 1,
       hasNextPage: requestedpage < totalPages,
       prevPage: requestedpage > 1 ? requestedpage - 1 : null,
       nextPage: requestedpage < totalPages ? requestedpage + 1 : null,

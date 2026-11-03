@@ -1,8 +1,6 @@
 # StudyFlow React — API Integration Practice
 
-Ye React + Vite frontend, pehle se bane StudyFlow Express/MongoDB/JWT backend ke saath connect karne ki practice ke liye hai.
-
-**Important:** Is project mein API calls implement nahi ki gayi hain. `fetch()` ya Axios nahi hai. Relevant components mein TODO comments hain jahan students ko API call add karni hai.
+Ye React + Vite frontend, StudyFlow Express/MongoDB/JWT backend ke saath connected hai. Register, login aur protected task CRUD flows implemented hain.
 
 ## 1. Requirements
 - Node.js 20 ya newer
@@ -51,9 +49,9 @@ Frontend `http://localhost:5173`, backend `http://localhost:3000` par hoga. Brow
 | Update task | `src/pages/Dashboard.jsx` | `PATCH /api/tasks/:id` |
 | Delete task | `src/pages/Dashboard.jsx` | `DELETE /api/tasks/:id` |
 
-TODO comments relevant `handleSubmit`, `handleCreateTask`, `handleUpdateTask` aur `handleDeleteTask` functions mein hain.
+`src/config/api.js` ka shared helper base URL ke saath endpoint jodta hai aur JSON errors handle karta hai.
 
-Example: base URL `http://localhost:3000` + endpoint `/api/auth/login` = `http://localhost:3000/api/auth/login`. Ye sirf URL example hai; actual API request add nahi ki gayi.
+Example: base URL `http://localhost:3000` + endpoint `/api/auth/login` = `http://localhost:3000/api/auth/login`.
 
 ## 6. Login request mein kya bhejna hoga?
 - Method: `POST`
@@ -75,7 +73,7 @@ Protected task routes mein `Authorization: Bearer <token>` header chahiye. Backe
 8. `src/pages/Dashboard.jsx`
 
 ## 8. Dashboard note
-Dashboard ke demo tasks React state mein hain. Add, toggle aur delete sirf local state badalte hain; database mein save nahi hota. Refresh karoge toh demo data reset ho jayega. Students ka task hai TODO ke hisaab se API calls add karna aur real response ke basis par UI update karna.
+Dashboard load par `GET /api/tasks` se logged-in user ke tasks aate hain. Add, toggle aur delete successful API response ke baad UI update karte hain aur database mein save hote hain. Login token current browser session ke `sessionStorage` mein rakha jaata hai.
 
 ## 9. Build check
 ```bash
